@@ -1,9 +1,8 @@
 form > label > input.comment-input {
-    padding: 3px 5px;
-    margin: 0px 5px;
-  }
-  
-  .comments {
-    margin-top: 20px;
-  }
-  
+  padding: 3px 5px;
+  margin: 0px 5px;
+}
+
+.comments {
+  margin-top: 20px;
+}

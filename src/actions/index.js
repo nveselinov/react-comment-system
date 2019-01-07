@@ -1,7 +1,6 @@
 export {
-    fetchComments,
-    newComment,
-    editComment,
-    deleteComment
-  } from "./commentActions";
-  
+  fetchComments,
+  newComment,
+  editComment,
+  deleteComment
+} from "./commentActions";

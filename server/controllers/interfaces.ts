@@ -1,5 +1,4 @@
 export interface IComments {
-    commentId: any;
-    comment: string;
-  }
-  
+  commentId: any;
+  comment: string;
+}

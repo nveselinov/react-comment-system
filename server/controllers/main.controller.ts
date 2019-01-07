@@ -36,7 +36,7 @@ router.post("/editComment", (request: Request, response: Response) => {
 
   comments.forEach(comment => {
     if (comment.commentId === request.body.commentId) {
-      comment.comment = request.body.newComment
+      comment.comment = request.body.newComment;
       //@TODO: response.send({success: true/false});
       // and handle on frontend accordingly
     }
