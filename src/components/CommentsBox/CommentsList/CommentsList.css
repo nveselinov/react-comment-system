@@ -1,0 +1,12 @@
+.comment-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #c2c2ca;
+  }
+  
+  .comment-item button {
+    display: inline-block;
+    height: 25px;
+    margin-left: 10px;
+  }
+  
