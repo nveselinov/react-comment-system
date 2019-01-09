@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
-import { fetchComments, editComment, deleteComment } from "../../../actions/";
+import { fetchComments, editComment, deleteComment } from "../../../actions";
 import "./CommentsList.css";
 
 class CommentList extends PureComponent {
@@ -20,10 +20,13 @@ class CommentList extends PureComponent {
   }
 
   onEditComment = commentId => {
-    let updatedComment = window.prompt("Edit comment", this.props.comment);
-    this.props
-      .editComment(commentId, updatedComment)
-      .then(this.props.fetchComments);
+    const updatedComment = window.prompt("Edit comment", this.props.comment);
+
+    if (updatedComment) {
+      this.props
+        .editComment(commentId, updatedComment)
+        .then(this.props.fetchComments);
+    }
   };
 
   onDeleteComment = commentId => {
@@ -33,14 +36,12 @@ class CommentList extends PureComponent {
   };
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchComments: () => dispatch(fetchComments()),
-    editComment: (commentId, newComment) =>
-      dispatch(editComment(commentId, newComment)),
-    deleteComment: commentId => dispatch(deleteComment(commentId))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchComments: () => dispatch(fetchComments()),
+  editComment: (commentId, newComment) =>
+    dispatch(editComment(commentId, newComment)),
+  deleteComment: commentId => dispatch(deleteComment(commentId))
+});
 
 export default connect(
   null,

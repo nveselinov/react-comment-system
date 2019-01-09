@@ -1,15 +1,17 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
 import { fetchComments, newComment } from "../../actions/";
 import "./CommentsBox.css";
 import CommentsList from "./CommentsList/CommentsList";
 
-class CommentsBox extends Component {
+class CommentsBox extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      comment: "",
+      btnDisabled: false
+    };
   }
 
   render() {
@@ -27,20 +29,21 @@ class CommentsBox extends Component {
 
   handleCommentChange = event => {
     // @TODO: Refactor the validation. Take the logic in dedicaded method with switch statement.
-    event.persist();
     this.setState({ [event.target.name]: event.target.value.trim() });
     if (event.target.value.length === 100 || event.target.value === "") {
-      event.target.form[1].disabled = true;
+      this.setState({ btnDisabled: true });
     } else {
-      event.target.form[1].disabled = false;
+      this.setState({ btnDisabled: false });
     }
   };
 
   handleSubmit = event => {
-    event.persist();
     event.preventDefault();
-    this.props.newComment(event.target[0].value).then(this.props.fetchComments);
-    event.target[0].value = "";
+    if (this.state.comment === "") {
+      return;
+    }
+    this.props.newComment(this.state.comment).then(this.props.fetchComments);
+    this.setState({ comment: "" });
   };
 
   renderCommentForm() {
@@ -50,14 +53,15 @@ class CommentsBox extends Component {
           <b>Comment:</b>
           <input
             type="text"
-            name="comment"
+            value={this.state.comment}
             maxLength="100"
+            name="comment"
             onChange={this.handleCommentChange}
             autoFocus
             className="comment-input"
           />
         </label>
-        <button type="submit" disabled={true}>
+        <button type="submit" disabled={this.state.btnDisabled}>
           Submit
         </button>
       </form>
@@ -77,21 +81,14 @@ class CommentsBox extends Component {
   }
 }
 
-CommentsBox.propTypes = {
-  fetchComments: PropTypes.func.isRequired,
-  newComment: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   comments: state.comments
 });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchComments: () => dispatch(fetchComments()),
-    newComment: comment => dispatch(newComment(comment))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchComments: () => dispatch(fetchComments()),
+  newComment: comment => dispatch(newComment(comment))
+});
 
 export default connect(
   mapStateToProps,

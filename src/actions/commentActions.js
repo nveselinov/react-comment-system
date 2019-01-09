@@ -4,13 +4,13 @@ import {
   EDIT_COMMENT,
   DELETE_COMMENT
 } from "./actionTypes";
+import { serverEndpoint, serverPort } from "../config";
 
-const serverEndpoint = "http://localhost";
-const serverPort = 3003;
+const apiUrl = `${serverEndpoint}:${serverPort}`;
 
 export const fetchComments = () => dispatch => {
   // @TODO: dispatch action on error and handle on UI
-  fetch(`${serverEndpoint}:${serverPort}/api/getComments`)
+  fetch(`${apiUrl}/api/getComments`)
     .then(response => response.json())
     .then(comments => {
       dispatch({
@@ -23,7 +23,7 @@ export const fetchComments = () => dispatch => {
 
 export const newComment = comment => dispatch => {
   // @TODO: dispatch action on error and handle on UI
-  return fetch(`${serverEndpoint}:${serverPort}/api`, {
+  return fetch(`${apiUrl}/api`, {
     method: "POST",
     headers: {
       "Cache-Control": "no-cache",
@@ -43,7 +43,7 @@ export const newComment = comment => dispatch => {
 };
 
 export const editComment = (commentId, newComment) => dispatch => {
-  return fetch(`${serverEndpoint}:${serverPort}/api/editComment`, {
+  return fetch(`${apiUrl}/api/editComment`, {
     method: "POST",
     headers: {
       "Cache-Control": "no-cache",
@@ -62,7 +62,7 @@ export const editComment = (commentId, newComment) => dispatch => {
 
 export const deleteComment = commentId => dispatch => {
   // @TODO: dispatch action on error and handle on UI
-  return fetch(`${serverEndpoint}:${serverPort}/api/deleteComment`, {
+  return fetch(`${apiUrl}/api/deleteComment`, {
     method: "POST",
     headers: {
       "Cache-Control": "no-cache",
