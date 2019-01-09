@@ -6,21 +6,25 @@ import "./CommentsList.css";
 
 class CommentList extends PureComponent {
   render() {
-    return (
-      <div className="comment-item">
-        <b>Comment</b>: {this.props.comment}
-        <button onClick={() => this.onEditComment(this.props.commentId)}>
-          [Edit]
-        </button>
-        <button onClick={() => this.onDeleteComment(this.props.commentId)}>
-          [Delete]
-        </button>
-      </div>
-    );
+    return this.props.comments.comments.map(comment => {
+      return (
+        <div key={comment.commentId} className="comments">
+          <div className="comment-item">
+            <b>Comment</b>: {comment.comment}
+            <button onClick={() => this.onEditComment(comment.commentId)}>
+              [Edit]
+            </button>
+            <button onClick={() => this.onDeleteComment(comment.commentId)}>
+              [Delete]
+            </button>
+          </div>
+        </div>
+      );
+    });
   }
 
   onEditComment = commentId => {
-    const updatedComment = window.prompt("Edit comment", this.props.comment);
+    const updatedComment = window.prompt("Edit comment", commentId);
 
     if (updatedComment) {
       this.props
@@ -36,6 +40,10 @@ class CommentList extends PureComponent {
   };
 }
 
+const mapStateToProps = state => ({
+  comments: state.comments
+});
+
 const mapDispatchToProps = dispatch => ({
   fetchComments: () => dispatch(fetchComments()),
   editComment: (commentId, newComment) =>
@@ -44,6 +52,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CommentList);

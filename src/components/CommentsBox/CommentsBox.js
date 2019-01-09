@@ -18,7 +18,7 @@ class CommentsBox extends PureComponent {
     return (
       <div>
         {this.renderCommentForm()}
-        <div className="comments">{this.renderComments()}</div>
+        <CommentsList />
       </div>
     );
   }
@@ -66,18 +66,6 @@ class CommentsBox extends PureComponent {
         </button>
       </form>
     );
-  }
-
-  renderComments() {
-    return this.props.comments.comments.map(comment => {
-      return (
-        <CommentsList
-          key={comment.commentId}
-          commentId={comment.commentId}
-          comment={comment.comment}
-        />
-      );
-    });
   }
 }
 
